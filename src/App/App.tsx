@@ -5,7 +5,7 @@ class App extends Component {
         return (
             <React.Fragment>
                 <h1>Netflixroulette</h1>
-                <Search/>
+                <Search filterOptions = {['Tittle', 'Genre']}/>
             </React.Fragment>
         );
     }

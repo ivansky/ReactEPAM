@@ -2,19 +2,33 @@ import React from 'react';
 import Button from '../../common/Button'
 
 type FilterProps = {
-    optionOne: string;
-    optionTwo: string;
+    options: string[];
     activeOption: string;
-    handleSwitch: () => void;
+    handleSwitch: (e: React.MouseEvent) => void;
 }
 
 const Filter = (props: FilterProps) => {
   return (
       <>
         <h3>Sort by</h3>
-        <div>
-            <Button content = {props.optionOne} action = {props.handleSwitch} />
-            <Button content = {props.optionTwo} action = {props.handleSwitch} />
+        <div>  
+          {
+            props.options.map(
+              (option, index) => {
+                if (option === props.activeOption) return (<Button
+                  key = {index}
+                  content = {option}
+                  action = {props.handleSwitch}
+                  disabled = {true}
+                />);
+                return (<Button
+                  key = {index}
+                  content = {option}
+                  action = {props.handleSwitch}
+                />);
+              }
+            )
+          }
         </div>
       </>
   );

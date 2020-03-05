@@ -3,52 +3,59 @@ import Button from '../common/Button';
 import Input from '../common/Input';
 import Filter from './components/Filter';
 type SearchOptions = {
+    filterOptions: string[];
 }
 type SearchState = {
     inputValue: string;
-    filter: string;
+    filterOptions: string[];
+    activeOption: string;
 }
 class Search extends React.Component<SearchOptions, SearchState>{
     constructor(props: SearchOptions) {
         super(props)
         this.state = {
             inputValue: '',
-            filter: 'Tittle'
+            filterOptions: props.filterOptions,
+            activeOption: props.filterOptions[0]
         }
     }
 
-    handleSearch = () => {
-        console.log('Click');
+    handleButtonSubmit = () => {
+        console.log('Submit with state:', this.state);
     }
 
     handleInputChange = (e: React.ChangeEvent) => {
         const inputText: string = (e.target as HTMLInputElement).value;
         this.setState({inputValue: inputText});
     }
-    
+
     handleInputSubmit = (e: React.KeyboardEvent) => {
         if (e.key === 'Enter') {
-            console.log((e.target as HTMLInputElement).value);
+            console.log('Submit with state:', this.state);
         }
     }
 
+    handleSwitchFilter = (e: React.MouseEvent) => {
+        console.log('Switch!');
+        this.setState({activeOption: (e.target as HTMLInputElement).value});
+    }
+
     render() {
-        console.log(this.state);
+        console.log('Current state:', this.state);
         return (
             <>
                 <h2>Find your movie</h2>
-                <Button content='Search' action = {this.handleSearch}/>
+                <Button content='Search' action = {this.handleButtonSubmit}/>
                 <Input
                     type = 'text'
                     changeAction = {this.handleInputChange}
                     submitAction = {this.handleInputSubmit}
                 />
                 <Filter
-                    optionOne = 'Tittle'
-                    optionTwo = 'Genre'
-                    activeOption = 'Tittle'
+                    options = {this.state.filterOptions}
+                    activeOption = {this.state.activeOption}
                     handleSwitch = {
-                        () => console.log('Switch!')
+                        (e: React.MouseEvent) => this.handleSwitchFilter(e)
                     }
                 />
             </>
