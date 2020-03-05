@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import Search from './components/Search/Search';
+import './App.scss';
 class App extends Component {
     render() {
         return (
-            <React.Fragment>
+            <div className = 'App'>
                 <h1>Netflixroulette</h1>
                 <Search filterOptions = {['Tittle', 'Genre']}/>
-            </React.Fragment>
+            </div>
         );
     }
 }

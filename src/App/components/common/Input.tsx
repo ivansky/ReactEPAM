@@ -1,4 +1,5 @@
 import React from 'react';
+import './Input.scss';
 
 type InputOptions = {
     type: string;
@@ -9,7 +10,8 @@ type InputOptions = {
 
 const Input = (props: InputOptions) => {
     return (
-        <input 
+        <input
+            className = 'input'
             type = {props.type}
             onKeyUp = {props.submitAction}
             onChange = {props.changeAction}
