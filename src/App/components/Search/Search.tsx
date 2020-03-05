@@ -2,22 +2,38 @@ import React from 'react';
 import Button from '../common/Button';
 import Input from '../common/Input';
 import Filter from './components/Filter';
+type SearchOptions = {
+}
+type SearchState = {
+    inputValue: string;
+    filter: string;
+}
+class Search extends React.Component<SearchOptions, SearchState>{
+    constructor(props: SearchOptions) {
+        super(props)
+        this.state = {
+            inputValue: '',
+            filter: 'Tittle'
+        }
+    }
 
-class Search extends React.Component{
     handleSearch = () => {
         console.log('Click');
     }
 
-    handleInputChange = () => {
-        console.log('Change!');
+    handleInputChange = (e: React.ChangeEvent) => {
+        const inputText: string = (e.target as HTMLInputElement).value;
+        this.setState({inputValue: inputText});
     }
+    
     handleInputSubmit = (e: React.KeyboardEvent) => {
         if (e.key === 'Enter') {
-            console.log(e);
+            console.log((e.target as HTMLInputElement).value);
         }
     }
 
     render() {
+        console.log(this.state);
         return (
             <>
                 <h2>Find your movie</h2>

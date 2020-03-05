@@ -2,7 +2,7 @@ import React from 'react';
 
 type InputOptions = {
     type: string;
-    changeAction: () => void;
+    changeAction: (e: React.ChangeEvent) => void;
     submitAction: (e: React.KeyboardEvent) => void;
     placeholder?: string;
 }
