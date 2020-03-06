@@ -2,7 +2,7 @@ import React from 'react';
 import Button from '../common/Button';
 import Input from '../common/Input';
 import Filter from './components/Filter';
-type SearchOptions = {
+type SearchProps = {
     filterOptions: string[];
 }
 type SearchState = {
@@ -10,8 +10,8 @@ type SearchState = {
     filterOptions: string[];
     activeOption: string;
 }
-class Search extends React.Component<SearchOptions, SearchState>{
-    constructor(props: SearchOptions) {
+class Search extends React.Component<SearchProps, SearchState>{
+    constructor(props: SearchProps) {
         super(props)
         this.state = {
             inputValue: '',
