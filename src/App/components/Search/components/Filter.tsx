@@ -24,7 +24,7 @@ const Filter = (props: FilterProps) => {
   );
   return (
       <>
-        <h3>Sort by</h3>
+        <h3>Search by</h3>
         <div>  
           {setFilterOptions}
         </div>
