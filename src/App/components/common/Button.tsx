@@ -14,7 +14,8 @@ const Button = (props: ButtonsOptions) => {
             className='button'
             onClick={props.action}
             value={props.content}
-            disabled={props.disabled}>{props.content}</button>
+            disabled={props.disabled}>{props.content}
+        </button>
     )
 }
 

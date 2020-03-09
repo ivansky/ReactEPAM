@@ -1,6 +1,7 @@
 import React from 'react';
 import { MovieProps } from './types'; 
 const Card = (props: MovieProps) => {
+    console.log(props.rating, props.releaseDate);
     return (
         <div>
             <img src = {props.imageURL}/>

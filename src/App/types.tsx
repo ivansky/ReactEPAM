@@ -19,4 +19,5 @@ export type MappedMoviesData = {
     genres: string[];
     releaseDate: string;
     imageURL: string;
+    rating: number;
 }
