@@ -14,7 +14,8 @@ class App extends Component {
                 genres: movie.genres,
                 releaseDate: movie.release_date,
                 imageURL: movie.poster_path,
-                rating: movie.vote_average
+                rating: movie.vote_average,
+                description: movie.overview
             }
         });
 

@@ -1,13 +1,20 @@
 import React from 'react';
 import Card from './Card';
 import ResultSorting from './ResultSorting';
-import { MovieProps, SearchResultState } from './types';
+import { Movie} from './types';
+import ShowMovieInfo from './ShowMovieInfo';
 
 type Props = {
-    movies: MovieProps[];
+    movies: Movie[];
 }
 
-class SearchResult extends React.Component<Props, SearchResultState>{
+type State = {
+    sortBy: {
+        [key: string]: boolean;
+    };
+    activeSortingOption: string;
+}
+class SearchResult extends React.Component<Props, State>{
     constructor(props: Props) {
         super(props)
         this.state = {
@@ -19,19 +26,16 @@ class SearchResult extends React.Component<Props, SearchResultState>{
         }
     }
 
-    sortByReleaseDate = (moviesArray: MovieProps[]) => {
-        return moviesArray.sort((first: MovieProps, second: MovieProps) => first.releaseDate
+    sortByReleaseDate = (moviesArray: Movie[]) => {
+        return moviesArray.sort((first: Movie, second: Movie) => first.releaseDate
             .localeCompare(second.releaseDate));
     }
 
-    sortByRating = (moviesArray: MovieProps[]) => {
-        return moviesArray.sort((first: MovieProps, second: MovieProps) => first.rating - second.rating);
+    sortByRating = (moviesArray: Movie[]) => {
+        return moviesArray.sort((first: Movie, second: Movie) => first.rating - second.rating);
     }
 
     switchSorting = (e: React.MouseEvent) => {
-        //TODO: how it can be implement in TS?
-        //      1)this.state.sortBy[active]
-        //      2) {sortBy: {...this.state.sortBy, [active]: true}, activeSortingOption: newOption}
         const newOption = (e.target as HTMLInputElement).value;
         const active = Object.keys(this.state.sortBy).find(key => this.state.sortBy[key]);
         const newState = {
@@ -43,6 +47,12 @@ class SearchResult extends React.Component<Props, SearchResultState>{
             activeSortingOption: newOption
         }
         if (newOption !== active) this.setState(newState); 
+    }
+
+    handleClick = (e: React.MouseEvent) => {
+        const target = e.target as HTMLInputElement;
+        if (target.style.display === 'none') target.style.display = 'block';
+        target.style.display = 'none';
     }
 
     render() {
@@ -57,14 +67,25 @@ class SearchResult extends React.Component<Props, SearchResultState>{
         }
             
         const setSearchResult = moviesSorted.map(
-            (movie: MovieProps) => <Card
-                key = {movie.key}
-                title = {movie.title}
-                genres = {movie.genres}
-                releaseDate = {movie.releaseDate}
-                imageURL = {movie.imageURL}
-                rating = {movie.rating}
-            />
+            (movie: Movie, index) =>
+            <div key = {movie.key} onClick = {this.handleClick}>
+                <Card
+                    title = {movie.title}
+                    genres = {movie.genres}
+                    releaseDate = {movie.releaseDate}
+                    imageURL = {movie.imageURL}
+                    rating = {movie.rating}
+                />
+                <ShowMovieInfo
+                    title = {movie.title}
+                    genres = {movie.genres}
+                    releaseDate = {movie.releaseDate}
+                    imageURL = {movie.imageURL}
+                    rating = {movie.rating}
+                    description = {movie.description}
+                    display = {'none'}
+                />
+            </ div>
         );
         const sortingOptions = Object.keys(this.state.sortBy);
         return (

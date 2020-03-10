@@ -1,17 +1,12 @@
-export type MovieProps = {
-    key: number;
+export type Movie = {
+    key?: number;
     title: string;
     genres: string[];
     releaseDate: string;
     imageURL: string;
     rating: number;
-}
-
-export type SearchResultState = {
-    sortBy: {
-        [key: string]: boolean;
-    };
-    activeSortingOption: string;
+    description?: string;
+    display?: string;
 }
 
 export type ResultSortingProps = {

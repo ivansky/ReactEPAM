@@ -1,10 +1,10 @@
 import React from 'react';
-import { MovieProps } from './types'; 
-const Card = (props: MovieProps) => {
+import { Movie } from './types'; 
+const Card = (props: Movie) => {
     console.log(props.rating, props.releaseDate);
     return (
         <div>
-            <img src = {props.imageURL}/>
+            <img src = {props.imageURL} width='300px'/>
             <h3>{props.title}</h3>
             <span>{props.releaseDate}</span>
             <p>{props.genres.join(' ')}</p>
