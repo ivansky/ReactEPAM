@@ -62,12 +62,18 @@ class App extends Component<{}, State> {
                     runtime = {this.state.currentMovie.runtime}
                 />
                 <SearchResult movies = {getMoviesData} action = {(movie: Movie) => this.handleSelectMovie(movie)}/>
+                <div className = 'footer'>
+                    <div className= 'footer-content'>Netflixroulette</div>
+                </div>
             </>
         }
         else {
             result = <>
             <Search filterOptions = {['title', 'genre']}/>
             <SearchResult movies = {getMoviesData} action = {(movie: Movie) => this.handleSelectMovie(movie)}/>
+            <div className = 'footer'>
+                <div className= 'footer-content'>Netflixroulette</div>
+            </div>
             </>
         }
         return (
