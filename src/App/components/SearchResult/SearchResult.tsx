@@ -5,6 +5,7 @@ import { Movie} from './types';
 import './SearchResult.scss';
 
 type Props = {
+    action: (movie: Movie) => void;
     movies: Movie[];
 }
 
@@ -49,6 +50,10 @@ class SearchResult extends React.Component<Props, State>{
         if (newOption !== active) this.setState(newState); 
     }
 
+    handleClick = (movie: Movie) => {
+        this.props.action(movie);
+    }
+
     render() {
         console.log(this.state);
         //TODO: Reverse if switchSorting newOption = active
@@ -63,12 +68,15 @@ class SearchResult extends React.Component<Props, State>{
         const setSearchResult = moviesSorted.map(
             (movie: Movie, index) =>
                 <Card
+                    action = {(movie) => this.handleClick(movie)}
                     key = {movie.key}
                     title = {movie.title}
                     genres = {movie.genres}
                     releaseDate = {movie.releaseDate}
                     imageURL = {movie.imageURL}
                     rating = {movie.rating}
+                    description = {movie.description}
+                    runtime = {movie.runtime}
                 />
         );
         const sortingOptions = Object.keys(this.state.sortBy);

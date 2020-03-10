@@ -4,8 +4,37 @@ import './App.scss';
 import SearchResult from './components/SearchResult/SearchResult';
 import {movies} from '../mock-data';
 import { MoviesApiData, MappedMoviesData } from './types';
-
-class App extends Component {
+import { Movie } from './components/SearchResult/types';
+import ShowMovieInfo from './components/SearchResult/ShowMovieInfo';
+type State = {
+    showMovie: boolean;
+    currentMovie: Movie;
+}
+class App extends Component<{}, State> {
+    constructor(props: {}) {
+        super(props);
+        this.state = {
+            showMovie: false,
+            currentMovie: {
+                title: '',
+                genres: [''],
+                releaseDate: '',
+                imageURL: '',
+                rating: 0,
+            }
+        }
+    }
+    handleSelectMovie = (movie: Movie) => {
+        this.setState({
+            showMovie: true,
+            currentMovie: movie
+        });
+    }
+    handleSelectSearch = () => {
+        this.setState({
+            showMovie: false,
+        });
+    }
     render() {
         const getMoviesData = movies.data.map((movie: MoviesApiData): MappedMoviesData => {
             return {
@@ -15,14 +44,35 @@ class App extends Component {
                 releaseDate: movie.release_date,
                 imageURL: movie.poster_path,
                 rating: movie.vote_average,
-                description: movie.overview
+                description: movie.overview,
+                runtime: movie.runtime
             }
         });
-
+        let result;
+        if (this.state.showMovie) {
+            result = <>
+                <ShowMovieInfo
+                    title = {this.state.currentMovie.title}
+                    genres = {this.state.currentMovie.genres}
+                    releaseDate = {this.state.currentMovie.releaseDate}
+                    imageURL = {this.state.currentMovie.imageURL}
+                    rating = {this.state.currentMovie.rating}
+                    description = {this.state.currentMovie.description}
+                    action = {() => this.handleSelectSearch()}
+                    runtime = {this.state.currentMovie.runtime}
+                />
+                <SearchResult movies = {getMoviesData} action = {(movie: Movie) => this.handleSelectMovie(movie)}/>
+            </>
+        }
+        else {
+            result = <>
+            <Search filterOptions = {['title', 'genre']}/>
+            <SearchResult movies = {getMoviesData} action = {(movie: Movie) => this.handleSelectMovie(movie)}/>
+            </>
+        }
         return (
             <div className = 'App'>
-                <Search filterOptions = {['title', 'genre']}/>
-                <SearchResult movies = {getMoviesData} />
+                {result}
             </div>
         );
     }

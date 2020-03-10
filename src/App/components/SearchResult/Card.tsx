@@ -9,7 +9,7 @@ const Card = (props: Movie) => {
         }, '');
     }
     return (
-        <div className = 'result-card'>
+        <div className = 'result-card' onClick = {() => props.action(props)}>
             <img className = 'card-image' src = {props.imageURL}/>
             <div className = 'card-content'>
                 <h3 className = 'card-title'>{props.title}</h3>

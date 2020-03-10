@@ -21,4 +21,5 @@ export type MappedMoviesData = {
     imageURL: string;
     rating: number;
     description: string;
+    runtime: number;
 }
