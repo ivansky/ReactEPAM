@@ -2,11 +2,13 @@
     font-size: 18px;
     padding: 4px;
     outline: none;
+    border: none;
+    border-bottom: 1px solid #fefefe ;
     color: #fefefe;
-    background-color: lighten($color: #E54B4B, $amount: 5);
+    background-color: #131313;
     transition: 0.2s;
 }
 .input:focus {
-    outline: 1px solid #EDAE49;
+    border-bottom: 1px solid #EDAE49;
     background-color: lighten($color: #E54B4B, $amount: 10);
 }

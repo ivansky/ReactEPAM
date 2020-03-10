@@ -2,7 +2,7 @@ import React from 'react';
 import Card from './Card';
 import ResultSorting from './ResultSorting';
 import { Movie} from './types';
-import ShowMovieInfo from './ShowMovieInfo';
+import './SearchResult.scss';
 
 type Props = {
     movies: Movie[];
@@ -49,12 +49,6 @@ class SearchResult extends React.Component<Props, State>{
         if (newOption !== active) this.setState(newState); 
     }
 
-    handleClick = (e: React.MouseEvent) => {
-        const target = e.target as HTMLInputElement;
-        if (target.style.display === 'none') target.style.display = 'block';
-        target.style.display = 'none';
-    }
-
     render() {
         console.log(this.state);
         //TODO: Reverse if switchSorting newOption = active
@@ -68,35 +62,30 @@ class SearchResult extends React.Component<Props, State>{
             
         const setSearchResult = moviesSorted.map(
             (movie: Movie, index) =>
-            <div key = {movie.key} onClick = {this.handleClick}>
                 <Card
+                    key = {movie.key}
                     title = {movie.title}
                     genres = {movie.genres}
                     releaseDate = {movie.releaseDate}
                     imageURL = {movie.imageURL}
                     rating = {movie.rating}
                 />
-                <ShowMovieInfo
-                    title = {movie.title}
-                    genres = {movie.genres}
-                    releaseDate = {movie.releaseDate}
-                    imageURL = {movie.imageURL}
-                    rating = {movie.rating}
-                    description = {movie.description}
-                    display = {'none'}
-                />
-            </ div>
         );
         const sortingOptions = Object.keys(this.state.sortBy);
         return (
-            <div>
+            <>
                 <ResultSorting
+                    numberOfItems = {this.props.movies.length}
                     sortingOptions = {sortingOptions}
                     activeOption = {sortingOptions[0]}
                     handleSwitchSorting = {this.switchSorting}
                 />
-                {setSearchResult}
-            </div>
+                <div className = 'search-result-container'>
+                    <div className = 'search-result'>
+                        {setSearchResult}
+                    </div>
+                </div>
+            </>
         );
     }
 }

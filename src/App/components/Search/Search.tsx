@@ -2,6 +2,7 @@ import React from 'react';
 import Button from '../common/Button';
 import Input from '../common/Input';
 import Filter from './components/Filter';
+import './Search.scss';
 type SearchProps = {
     filterOptions: string[];
 }
@@ -43,22 +44,27 @@ class Search extends React.Component<SearchProps, SearchState>{
     render() {
         console.log('Current state:', this.state);
         return (
-            <>
-                <h2>Find your movie</h2>
-                <Button content='Search' action = {this.handleButtonSubmit}/>
-                <Input
-                    type = 'text'
-                    changeAction = {this.handleInputChange}
-                    submitAction = {this.handleInputSubmit}
-                />
-                <Filter
-                    options = {this.state.filterOptions}
-                    activeOption = {this.state.activeOption}
-                    handleSwitch = {
-                        (e: React.MouseEvent) => this.handleSwitchFilter(e)
-                    }
-                />
-            </>
+            <div className = 'search-container'>
+                <div className = 'search'>
+                    <h1 className = 'search-title'>Netflixroulette</h1>
+                    <h2>Find your movie</h2>
+                    <Input
+                        type = 'text'
+                        changeAction = {this.handleInputChange}
+                        submitAction = {this.handleInputSubmit}
+                    />
+                    <div className = 'search-filter-container'>
+                        <Filter
+                            options = {this.state.filterOptions}
+                            activeOption = {this.state.activeOption}
+                            handleSwitch = {
+                                (e: React.MouseEvent) => this.handleSwitchFilter(e)
+                            }
+                        />
+                        <Button content='Search' action = {this.handleButtonSubmit}/>
+                    </div>
+                </div>
+            </div>
         )
     }
 }

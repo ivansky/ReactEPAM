@@ -1,13 +1,21 @@
 import React from 'react';
-import { Movie } from './types'; 
+import { Movie } from './types';
+import './Card.scss';
 const Card = (props: Movie) => {
-    console.log(props.rating, props.releaseDate);
+    const getGenresFromArray = (genres: string[]) => {
+        return genres.reduce((genre, resultString) => {
+           const capitalizeGenre = genre.charAt(0).toUpperCase() + genre.slice(1);
+           return `${resultString} ${capitalizeGenre}`;
+        }, '');
+    }
     return (
-        <div>
-            <img src = {props.imageURL} width='300px'/>
-            <h3>{props.title}</h3>
-            <span>{props.releaseDate}</span>
-            <p>{props.genres.join(' ')}</p>
+        <div className = 'result-card'>
+            <img className = 'card-image' src = {props.imageURL}/>
+            <div className = 'card-content'>
+                <h3 className = 'card-title'>{props.title}</h3>
+                <p className = 'card-date'>{props.releaseDate.substring(0, 4)}</p>
+            </div>
+            <p className = 'card-genres'>{getGenresFromArray(props.genres)}</p>
         </div>
     );
 }

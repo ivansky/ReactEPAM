@@ -1,5 +1,6 @@
 import React from 'react';
 import Button from '../../common/Button'
+import './Filter.scss';
 
 type FilterProps = {
     options: string[];
@@ -23,12 +24,10 @@ const Filter = (props: FilterProps) => {
     }
   );
   return (
-      <>
-        <h3>Search by</h3>
-        <div>  
-          {setFilterOptions}
-        </div>
-      </>
+      <div className = 'filter-option'>
+      <h3 className='filter-title'>Search by</h3> 
+        {setFilterOptions}
+      </div>
   );
 };
 

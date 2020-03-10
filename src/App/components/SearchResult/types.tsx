@@ -8,9 +8,3 @@ export type Movie = {
     description?: string;
     display?: string;
 }
-
-export type ResultSortingProps = {
-    sortingOptions: string[];
-    activeOption: string;
-    handleSwitchSorting: (e: React.MouseEvent) => void;
-}

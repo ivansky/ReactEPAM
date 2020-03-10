@@ -21,7 +21,6 @@ class App extends Component {
 
         return (
             <div className = 'App'>
-                <h1>Netflixroulette</h1>
                 <Search filterOptions = {['title', 'genre']}/>
                 <SearchResult movies = {getMoviesData} />
             </div>
