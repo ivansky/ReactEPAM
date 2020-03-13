@@ -22,7 +22,10 @@ module.exports = {
       'tsConfig': "tsconfig.json"
     }
   },
-  'collectCoverageFrom': ['src/**/*.{tsx}'],
+  'collectCoverageFrom': ['src/**/*.{js,jsx,ts,tsx}'],
   'coverageDirectory': 'coverage',
   "snapshotSerializers": ["enzyme-to-json/serializer"],
+  "moduleNameMapper": {
+    "^.+\\.(css|scss)$": "identity-obj-proxy"
+  }
 }
