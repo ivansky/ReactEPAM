@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1584100416336" clover="3.2.0">
-  <project timestamp="1584100416336" name="All files">
-    <metrics statements="131" coveredstatements="5" conditionals="18" coveredconditionals="0" methods="41" coveredmethods="1" elements="190" coveredelements="6" complexity="0" loc="131" ncloc="131" packages="6" files="11" classes="11"/>
+<coverage generated="1584115900889" clover="3.2.0">
+  <project timestamp="1584115900889" name="All files">
+    <metrics statements="131" coveredstatements="10" conditionals="18" coveredconditionals="0" methods="41" coveredmethods="2" elements="190" coveredelements="12" complexity="0" loc="131" ncloc="131" packages="6" files="11" classes="11"/>
     <package name="src">
       <metrics statements="5" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
       <file name="index.tsx" path="C:\Users\Ruslan_Dzhafarov\Projects\React\ReactEPAM\src\index.tsx">
@@ -166,22 +166,22 @@
       </file>
     </package>
     <package name="src.App.components.common">
-      <metrics statements="10" coveredstatements="5" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="1"/>
+      <metrics statements="10" coveredstatements="10" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="2"/>
       <file name="Button.tsx" path="C:\Users\Ruslan_Dzhafarov\Projects\React\ReactEPAM\src\App\components\common\Button.tsx">
         <metrics statements="5" coveredstatements="5" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
         <line num="11" count="1" type="stmt"/>
-        <line num="12" count="2" type="stmt"/>
+        <line num="12" count="3" type="stmt"/>
         <line num="22" count="1" type="stmt"/>
       </file>
       <file name="Input.tsx" path="C:\Users\Ruslan_Dzhafarov\Projects\React\ReactEPAM\src\App\components\common\Input.tsx">
-        <metrics statements="5" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
-        <line num="1" count="0" type="stmt"/>
-        <line num="2" count="0" type="stmt"/>
-        <line num="11" count="0" type="stmt"/>
-        <line num="12" count="0" type="stmt"/>
-        <line num="22" count="0" type="stmt"/>
+        <metrics statements="5" coveredstatements="5" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
+        <line num="1" count="1" type="stmt"/>
+        <line num="2" count="1" type="stmt"/>
+        <line num="11" count="1" type="stmt"/>
+        <line num="12" count="1" type="stmt"/>
+        <line num="22" count="1" type="stmt"/>
       </file>
     </package>
   </project>
