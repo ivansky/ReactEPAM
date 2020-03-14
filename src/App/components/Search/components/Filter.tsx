@@ -20,6 +20,7 @@ const Filter = (props: FilterProps) => {
         key = {index}
         content = {option}
         action = {props.handleSwitch}
+        disabled = {false}
       />);
     }
   );

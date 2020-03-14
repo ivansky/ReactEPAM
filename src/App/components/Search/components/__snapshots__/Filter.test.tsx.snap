@@ -18,6 +18,7 @@ exports[`<Filter/> rendering should renders correctly 1`] = `
   <Button
     action={[MockFunction]}
     content="genres"
+    disabled={false}
     key="1"
   />
 </div>
