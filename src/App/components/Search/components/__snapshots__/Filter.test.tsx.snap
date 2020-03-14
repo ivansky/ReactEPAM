@@ -1,0 +1,24 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Filter/> rendering should renders correctly 1`] = `
+<div
+  className="filter-option"
+>
+  <h3
+    className="filter-title"
+  >
+    Search by
+  </h3>
+  <Button
+    action={[MockFunction]}
+    content="title"
+    disabled={true}
+    key="0"
+  />
+  <Button
+    action={[MockFunction]}
+    content="genres"
+    key="1"
+  />
+</div>
+`;
