@@ -11,22 +11,20 @@ const props = {
 const input = shallow(<Input {...props} />);
 
 describe('<Input> rendering', () => {
+    afterEach(() => {
+        jest.clearAllMocks();
+    });
+    
     it('should renders correctly', () => {
         expect(input).toMatchSnapshot()
-    })
+    });
 
     it('should has correct className', () => {
         expect(input.find('input').hasClass('input')).toEqual(true);
-    })
+    });
 
     it('should has correct type', () => {
         expect(input.find('input').props().type).toEqual('text');
-    }) 
-});
-
-describe('<Input> interaction', () => {
-    afterEach(() => {
-        jest.clearAllMocks();
     });
     
     it('should handle onChange event', () => {

@@ -13,9 +13,7 @@ describe('<Button /> rendering', () => {
         const btn = shallow(<Button content='Search' action = {() => console.log('Button clicked!')}/>)
         expect(btn.find('button').hasClass('button')).toEqual(true);
     });
-})
 
-describe('<Button /> interaction', () => {
     it('should handle onClick event', () => {
         const mockConsoleLog = jest.fn();
         const btn = shallow(
