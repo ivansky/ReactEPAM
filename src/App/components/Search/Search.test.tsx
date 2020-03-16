@@ -9,15 +9,13 @@ const props = {
 }
 
 describe('<Search/> rendering', () => {
-    const search = shallow(<Search {...props}/>)
     it('should renders correctly',() => {
+        const search = shallow(<Search {...props}/>);
         expect(search).toMatchSnapshot();
     })
-})
-describe('<Search/> interacting', () => {
-    const search = mount(<Search {...props}/>);
 
     it('should handle switch Filter event',() => {
+        const search = mount(<Search {...props}/>);
         const unactiveOption = search.find(Filter).find(Button).find('button').filterWhere(el => el.prop('disabled') === false);
         const methods = search.instance() as Search;
         jest.spyOn(methods, 'handleSwitchFilter');
