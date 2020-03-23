@@ -1,57 +1,12 @@
-import {MoviesApiData, Movie} from '../types'
-import { createStore, combineReducers, applyMiddleware } from "redux";
-import thunkMiddleware from "redux-thunk";
-import {FETCH_MOVIES_ERROR, FETCH_MOVIES_PENDING, FETCH_MOVIES_SUCCESS, FetchMovieSuccess} from '../types';
-const initialState: MoviesApiData[] = [{
-    id: null,
-    title: '',
-    tagline: '',
-    vote_average: null,
-    vote_count: null,
-    release_date: '',
-    poster_path: '',
-    overview: '',
-    budget: null,
-    revenue: null,
-    genres: [''],
-    runtime: null,
-}];
+import { AppState } from "../typings/types";
+import { FetchMovieSuccess, fetchMovieSuccess } from "../actions/fetchMoviesSuccess";
+import { combineReducers } from "redux";
+import { MovieReducer } from "./MovieReducer";
 
-function movieReducer(state = initialState, action: FetchMovieSuccess) {
-    switch (action.type) {
-      // case FETCH_MOVIES_PENDING:
-      //   return {
-      //     ...state,
-      //     loading: true,
-      //     error: null
-      //   };
-  
-      case FETCH_MOVIES_SUCCESS:
-        return {
-          ...state,
-          movies: action.payload
-        };
-  
-      // case FETCH_MOVIES_ERROR:
-      //   return {
-      //     ...state,
-      //     loading: false,
-      //     error: action.payload.error,
-      //     items: []
-      //   };
-  
-      default:
-        return state;
-    }
-}
+// type Action = FetchMovieSuccess;
 
-export type AppState = ReturnType<typeof movieReducer>;
-
-export default function configureStore() {
-  const middlewares = [thunkMiddleware];
-  const middleWareEnhancer = applyMiddleware(...middlewares);
-
-  const store = createStore(movieReducer);
-
-  return store;
-}
+// // eslint-disable-next-line @typescript-eslint/no-explicit-any
+// export const root = () => (state: AppState, actions: Action): any  {
+//   return combineReducers({MovieReducer});
+// }
+export default combineReducers({MovieReducer});

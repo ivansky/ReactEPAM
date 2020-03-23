@@ -6,15 +6,21 @@ import {movies} from '../mock-data';
 import { MoviesApiData, MappedMoviesData } from './types';
 import { Movie } from './components/SearchResult/types';
 import ShowMovieInfo from './components/SearchResult/ShowMovieInfo';
-import {AppState} from '../store/reducers/rootReducer'
-import {fetchMovies} from '../store/actions/fetchMoviesActions';
 import { connect } from 'react-redux'
+import { AppState } from './typings/types';
+import { getMovies } from './thunkAction/getMovies';
+import { Dispatch } from 'redux';
+import { fetchMovieSuccess } from './actions/fetchMoviesSuccess';
 type State = {
     showMovie: boolean;
     currentMovie: Movie;
 }
-class App extends Component<{}, State> {
-    constructor(props: {}) {
+type Props = {
+    movies: Movie[];
+    //getMovies: Dispatch;
+}
+class App extends Component<Props, State> {
+    constructor(props: Props) {
         super(props);
         this.state = {
             showMovie: false,
@@ -27,9 +33,10 @@ class App extends Component<{}, State> {
             }
         }
     }
-    // componentDidMount() {
-    //     this.
-    // }
+    componentDidMount() {
+        this.props.dispatch(fetchMovieSuccess());
+        console.log(this.props, this.state);
+    }
     handleSelectMovie = (movie: Movie) => {
         this.setState({
             showMovie: true,
@@ -90,9 +97,14 @@ class App extends Component<{}, State> {
     }
 }
 
-const mapStateToProps =  (state: AppState) => ({
-    showMovie: state
-    movies: state.movies,
-})
+const mapStateToProps = (state: AppState) => ({
+    movies: state.movies
+});
+const mapDispatchToProps = {
+    dispatch: getMovies,
+}
 
-export default connect(mapStateToProps)(App);
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(App);
