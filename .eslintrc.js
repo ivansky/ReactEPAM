@@ -33,7 +33,9 @@ module.exports = {
         'react/prop-types': 'off',
         "react-hooks/rules-of-hooks": "error",
         "react-hooks/exhaustive-deps": "warn",
-        "@typescript-eslint/no-var-requires": 0
+        "@typescript-eslint/no-var-requires": 0,
+        "camelcase": "off",
+        "@typescript-eslint/camelcase": ["error", { "properties": "never" }]
     },
     settings: {
         react: {

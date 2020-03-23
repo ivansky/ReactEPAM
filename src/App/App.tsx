@@ -6,6 +6,9 @@ import {movies} from '../mock-data';
 import { MoviesApiData, MappedMoviesData } from './types';
 import { Movie } from './components/SearchResult/types';
 import ShowMovieInfo from './components/SearchResult/ShowMovieInfo';
+import {AppState} from '../store/reducers/rootReducer'
+import {fetchMovies} from '../store/actions/fetchMoviesActions';
+import { connect } from 'react-redux'
 type State = {
     showMovie: boolean;
     currentMovie: Movie;
@@ -24,6 +27,9 @@ class App extends Component<{}, State> {
             }
         }
     }
+    // componentDidMount() {
+    //     this.
+    // }
     handleSelectMovie = (movie: Movie) => {
         this.setState({
             showMovie: true,
@@ -84,4 +90,9 @@ class App extends Component<{}, State> {
     }
 }
 
-export default App;
+const mapStateToProps =  (state: AppState) => ({
+    showMovie: state
+    movies: state.movies,
+})
+
+export default connect(mapStateToProps)(App);
