@@ -42,5 +42,7 @@ export const FETCH_MOVIES_SUCCESS = 'FETCH_MOVIES_SUCCESS';
 export const FETCH_MOVIES_ERROR = 'FETCH_MOVIES_ERROR';
 
 export interface AppState {
-    movies: MappedMoviesData[];
+    MovieReducer: {
+        movies: Movie[];
+    };
 }

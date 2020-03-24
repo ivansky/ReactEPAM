@@ -9,15 +9,14 @@ import ShowMovieInfo from './components/SearchResult/ShowMovieInfo';
 import { connect } from 'react-redux'
 import { AppState } from './typings/types';
 import { getMovies } from './thunkAction/getMovies';
-import { Dispatch } from 'redux';
-import { fetchMovieSuccess } from './actions/fetchMoviesSuccess';
+import { Dispatch, bindActionCreators } from 'redux';
 type State = {
     showMovie: boolean;
     currentMovie: Movie;
 }
 type Props = {
-    movies: Movie[];
-    //getMovies: Dispatch;
+    movies?: Movie[];
+    getMovies?: Function;
 }
 class App extends Component<Props, State> {
     constructor(props: Props) {
@@ -34,8 +33,8 @@ class App extends Component<Props, State> {
         }
     }
     componentDidMount() {
-        this.props.dispatch(fetchMovieSuccess());
-        console.log(this.props, this.state);
+        this.props.getMovies();
+        console.log(this.props);
     }
     handleSelectMovie = (movie: Movie) => {
         this.setState({
@@ -49,6 +48,7 @@ class App extends Component<Props, State> {
         });
     }
     render() {
+        console.log(this.props)
         const getMoviesData = movies.data.map((movie: MoviesApiData): MappedMoviesData => {
             return {
                 key: movie.id,
@@ -97,11 +97,15 @@ class App extends Component<Props, State> {
     }
 }
 
-const mapStateToProps = (state: AppState) => ({
-    movies: state.movies
-});
-const mapDispatchToProps = {
-    dispatch: getMovies,
+function mapStateToProps (state: AppState){
+    return {
+    movies: state.MovieReducer.movies
+}
+}
+function mapDispatchToProps (dispatch: Dispatch) {
+    return {
+        getMovies: bindActionCreators(getMovies, dispatch)
+    }
 }
 
 export default connect(
