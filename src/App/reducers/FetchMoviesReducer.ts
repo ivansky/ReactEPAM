@@ -8,7 +8,7 @@ const initialState: MappedMoviesData[] = [];
 
 type Action = FetchMoviesSuccess | FetchMoviesError;
 
-export const MovieReducer: Reducer<MappedMoviesData[], Action> = (state = initialState, action: Action) => {
+export const FetchMovies: Reducer<MappedMoviesData[], Action> = (state = initialState, action: Action) => {
     switch (action.type) {
         case ActionTypes.FETCH_MOVIES_SUCCESS:
             return action.payload
