@@ -1,19 +1,21 @@
 import { Reducer } from "react";
-import { FetchMovieSuccess } from "../actions/fetchMoviesSuccess";
+import { FetchMoviesSuccess } from "../actions/fetchMoviesSuccess";
 import { ActionTypes } from "../constants/Constants";
 import { MappedMoviesData } from "../typings/types";
+import { FetchMoviesError } from "../actions/fetchMoviesError";
 
 const initialState: MappedMoviesData[] = [];
 
-type Action = FetchMovieSuccess;
+type Action = FetchMoviesSuccess | FetchMoviesError;
 
 export const MovieReducer: Reducer<MappedMoviesData[], Action> = (state = initialState, action: Action) => {
     switch (action.type) {
-        case `${ActionTypes.FETCH_MOVIE_SUCCESS}`:
-            console.log(action.payload);
+        case ActionTypes.FETCH_MOVIES_SUCCESS:
+            return action.payload
+        case ActionTypes.FETCH_MOVIES_ERROR:
             return {
                 ...state,
-                movies: action.payload
+                fetchError: action.payload,
             }
         default:
             return state;

@@ -37,12 +37,10 @@ export type Movie = {
     runtime?: number; 
 }
 
-export const FETCH_MOVIES_PENDING = 'FETCH_MOVIES_PENDING';
-export const FETCH_MOVIES_SUCCESS = 'FETCH_MOVIES_SUCCESS';
-export const FETCH_MOVIES_ERROR = 'FETCH_MOVIES_ERROR';
+// export const FETCH_MOVIES_PENDING = 'FETCH_MOVIES_PENDING';
+// export const FETCH_MOVIES_SUCCESS = 'FETCH_MOVIES_SUCCESS';
+// export const FETCH_MOVIES_ERROR = 'FETCH_MOVIES_ERROR';
 
 export interface AppState {
-    MovieReducer: {
-        movies: Movie[];
-    };
+    fetchedMovies: Movie[];
 }

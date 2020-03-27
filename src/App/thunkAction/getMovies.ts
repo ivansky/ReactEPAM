@@ -1,9 +1,10 @@
 import { Dispatch } from "redux";
-import { fetchMovieSuccess, FetchMovieSuccess } from "../actions/fetchMoviesSuccess";
+import { fetchMoviesSuccess, FetchMoviesSuccess } from "../actions/fetchMoviesSuccess";
 import { MoviesApiData, MappedMoviesData } from "../types";
 import { ThunkAction } from "redux-thunk";
 import { AppState } from "../typings/types";
-type Action = FetchMovieSuccess;
+import { fetchMoviesError } from "../actions/fetchMoviesError";
+type Action = FetchMoviesSuccess;
 export const getMovies = (): ThunkAction<void, AppState, null, Action> => {
     return (dispatch: Dispatch) => {
         fetch('https://reactjs-cdp.herokuapp.com/movies')
@@ -24,7 +25,8 @@ export const getMovies = (): ThunkAction<void, AppState, null, Action> => {
                     runtime: movie.runtime
                 }
             });
-           dispatch(fetchMovieSuccess(mapMoviesData));
-        });
+           dispatch(fetchMoviesSuccess(mapMoviesData));
+        })
+        .catch(() => dispatch(fetchMoviesError()));
     }
 }

@@ -15,7 +15,7 @@ type State = {
     currentMovie: Movie;
 }
 type Props = {
-    movies?: Movie[];
+    //movies?: Movie[];
     getMovies?: Function;
 }
 class App extends Component<Props, State> {
@@ -99,8 +99,8 @@ class App extends Component<Props, State> {
 
 function mapStateToProps (state: AppState){
     return {
-    movies: state.MovieReducer.movies
-}
+        fetchedMovies: state.fetchedMovies
+    }
 }
 function mapDispatchToProps (dispatch: Dispatch) {
     return {
