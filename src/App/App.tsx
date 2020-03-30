@@ -46,7 +46,6 @@ class App extends Component<Props, State> {
     }
 
     handleSearch = () => {
-        console.log(this.props.searchQuery)
         const url = `https://reactjs-cdp.herokuapp.com/movies?search=${this.props.searchQuery.input}&searchBy=${this.props.searchQuery.filterOption}`
         this.props.getMovies(url)
     }

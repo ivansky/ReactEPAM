@@ -55,8 +55,6 @@ class SearchResult extends React.Component<Props, State>{
     }
 
     render() {
-        console.log(this.state);
-        //TODO: Reverse if switchSorting newOption = active
         const moviesSorted = this.props.movies;
         if (this.state.activeSortingOption === 'releaseDate') {
             this.sortByReleaseDate(moviesSorted);

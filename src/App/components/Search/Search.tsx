@@ -48,18 +48,15 @@ class Search extends React.Component<SearchProps, SearchState>{
 
     handleInputSubmit = (e: React.KeyboardEvent) => {
         if (e.key === 'Enter') {
-            console.log('Submit with state:', this.state);
             this.props.makeSearch(this.props.searchQuery)
         }
     }
 
     handleSwitchFilter = (e: React.MouseEvent) => {
-        console.log('Switch!');
         this.setState({activeOption: (e.target as HTMLInputElement).value});
     }
 
     render() {
-        console.log('change');
         return (
             <div className = 'search-container'>
                 <div className = 'search'>
