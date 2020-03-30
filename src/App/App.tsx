@@ -5,7 +5,7 @@ import SearchResult from './components/SearchResult/SearchResult';
 import { Movie } from './components/SearchResult/types';
 import ShowMovieInfo from './components/SearchResult/ShowMovieInfo';
 import { connect } from 'react-redux'
-import { AppState } from './typings/types';
+import { AppState, SearchQuery } from './typings/types';
 import { getMovies } from './thunkAction/getMovies';
 import { Dispatch, bindActionCreators } from 'redux';
 
@@ -17,6 +17,7 @@ type State = {
 type Props = {
     fetchedMovies: Movie[];
     getMovies: Function;
+    searchQuery: SearchQuery;
 }
 
 class App extends Component<Props, State> {
@@ -44,6 +45,12 @@ class App extends Component<Props, State> {
         });
     }
 
+    handleSearch = () => {
+        console.log(this.props.searchQuery)
+        const url = `https://reactjs-cdp.herokuapp.com/movies?search=${this.props.searchQuery.input}&searchBy=${this.props.searchQuery.filterOption}`
+        this.props.getMovies(url)
+    }
+
     render() {
         let result;
         if (this.state.showCurrentMovie) {
@@ -66,7 +73,7 @@ class App extends Component<Props, State> {
         }
         else {
             result = <>
-            <Search filterOptions = {['title', 'genre']}/>
+            <Search filterOptions = {['title', 'genres']} makeSearch = {this.handleSearch}/>
             <SearchResult movies = {this.props.fetchedMovies} action = {(movie: Movie) => this.handleSelectMovie(movie)}/>
             <div className = 'footer'>
                 <div className= 'footer-content'>Netflixroulette</div>
@@ -83,7 +90,8 @@ class App extends Component<Props, State> {
 
 function mapStateToProps (state: AppState){
     return {
-        fetchedMovies: state.fetchedMovies
+        fetchedMovies: state.fetchedMovies,
+        searchQuery: state.searchQuery
     }
 }
 function mapDispatchToProps (dispatch: Dispatch) {

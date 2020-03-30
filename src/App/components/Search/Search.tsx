@@ -3,8 +3,16 @@ import Button from '../common/Button';
 import Input from '../common/Input';
 import Filter from './components/Filter';
 import './Search.scss';
+import { AppState, SearchQuery } from '../../typings/types';
+import { Dispatch, bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import { setSearchInput, setSearchFilter } from '../../actions/setSearchQuery';
 type SearchProps = {
     filterOptions: string[];
+    searchQuery: SearchQuery;
+    setSearchInput: Function;
+    setSearchFilter: Function;
+    makeSearch: Function;
 }
 type SearchState = {
     inputValue: string;
@@ -21,8 +29,16 @@ class Search extends React.Component<SearchProps, SearchState>{
         }
     }
 
+    componentDidUpdate(prevProps: SearchProps) {
+        if (prevProps === this.props) {
+            this.props.setSearchInput(this.state.inputValue);
+            this.props.setSearchFilter(this.state.activeOption)
+        }
+    }
+
     handleButtonSubmit = () => {
-        console.log('Submit with state:', this.state);
+        this.props.setSearchInput(this.state.inputValue)
+        this.props.makeSearch()
     }
 
     handleInputChange = (e: React.ChangeEvent) => {
@@ -33,6 +49,7 @@ class Search extends React.Component<SearchProps, SearchState>{
     handleInputSubmit = (e: React.KeyboardEvent) => {
         if (e.key === 'Enter') {
             console.log('Submit with state:', this.state);
+            this.props.makeSearch(this.props.searchQuery)
         }
     }
 
@@ -42,7 +59,7 @@ class Search extends React.Component<SearchProps, SearchState>{
     }
 
     render() {
-        console.log('Current state:', this.state);
+        console.log('change');
         return (
             <div className = 'search-container'>
                 <div className = 'search'>
@@ -69,4 +86,20 @@ class Search extends React.Component<SearchProps, SearchState>{
     }
 }
 
-export default Search;
+function mapStateToProps (state: AppState){
+    return {
+        searchQuery: state.searchQuery
+    }
+}
+
+function mapDispatchToProps (dispatch: Dispatch) {
+    return {
+        setSearchInput: bindActionCreators(setSearchInput, dispatch),
+        setSearchFilter: bindActionCreators(setSearchFilter, dispatch)
+    }
+}
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(Search);

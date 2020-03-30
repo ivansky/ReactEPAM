@@ -5,9 +5,9 @@ import { ThunkAction } from "redux-thunk";
 import { AppState } from "../typings/types";
 import { fetchMoviesError } from "../actions/fetchMoviesError";
 type Action = FetchMoviesSuccess;
-export const getMovies = (): ThunkAction<void, AppState, null, Action> => {
+export const getMovies = (url = 'https://reactjs-cdp.herokuapp.com/movies'): ThunkAction<void, AppState, null, Action> => {
     return (dispatch: Dispatch) => {
-        fetch('https://reactjs-cdp.herokuapp.com/movies')
+        fetch(url)
         .then(res => res.json())
         .then(res => {
             if(res.error) {
