@@ -7,6 +7,7 @@ import { AppState, SearchQuery } from '../../typings/types';
 import { Dispatch, bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { setSearchInput, setSearchFilter } from '../../actions/setSearchQuery';
+import { Link } from 'react-router-dom';
 type SearchProps = {
     filterOptions: string[];
     searchQuery: SearchQuery;
@@ -60,7 +61,11 @@ class Search extends React.Component<SearchProps, SearchState>{
         return (
             <div className = 'search-container'>
                 <div className = 'search'>
-                    <h1 className = 'search-title'>Netflixroulette</h1>
+                    <Link to='/'>
+                        <a className = 'search-title'>
+                            <h1>Netflixroulette</h1>
+                        </a>
+                    </Link>
                     <h2>Find your movie</h2>
                     <Input
                         type = 'text'
