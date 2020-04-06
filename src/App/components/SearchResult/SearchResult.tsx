@@ -67,6 +67,7 @@ class SearchResult extends React.Component<Props, State>{
             (movie: Movie, index) =>
                 <Card
                     action = {(movie) => this.handleClick(movie)}
+                    id = {movie.key}
                     key = {movie.key}
                     title = {movie.title}
                     genres = {movie.genres}

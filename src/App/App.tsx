@@ -8,6 +8,10 @@ import { connect } from 'react-redux'
 import { AppState, SearchQuery } from './typings/types';
 import { getMovies } from './thunkAction/getMovies';
 import { Dispatch, bindActionCreators } from 'redux';
+import { ConnectedRouter } from 'connected-react-router';
+import { History } from 'history';
+import { Route, Switch } from 'react-router';
+import NotFound from './components/NotFound';
 
 type State = {
     showCurrentMovie: boolean;
@@ -18,6 +22,7 @@ type Props = {
     fetchedMovies: Movie[];
     getMovies: Function;
     searchQuery: SearchQuery;
+    history: History;
 }
 
 class App extends Component<Props, State> {
@@ -51,37 +56,64 @@ class App extends Component<Props, State> {
     }
 
     render() {
-        let result;
-        if (this.state.showCurrentMovie) {
-            result = <>
-                <ShowMovieInfo
-                    title = {this.state.currentMovie.title}
-                    genres = {this.state.currentMovie.genres}
-                    releaseDate = {this.state.currentMovie.releaseDate}
-                    imageURL = {this.state.currentMovie.imageURL}
-                    rating = {this.state.currentMovie.rating}
-                    description = {this.state.currentMovie.description}
-                    action = {() => this.handleSelectSearch()}
-                    runtime = {this.state.currentMovie.runtime}
-                />
-                <SearchResult movies = {this.props.fetchedMovies} action = {(movie: Movie) => this.handleSelectMovie(movie)}/>
-                <div className = 'footer'>
-                    <div className= 'footer-content'>Netflixroulette</div>
-                </div>
-            </>
+        const getResult = () => {
+            if (this.state.currentMovie) {
+                console.log(this.state.currentMovie.title)
+                return (
+                    <Route path={`/films/${this.state.currentMovie.id}`} >
+                        <ShowMovieInfo
+                            key = {this.state.currentMovie.id}
+                            id = {this.state.currentMovie.id}
+                            title = {this.state.currentMovie.title}
+                            genres = {this.state.currentMovie.genres}
+                            releaseDate = {this.state.currentMovie.releaseDate}
+                            imageURL = {this.state.currentMovie.imageURL}
+                            rating = {this.state.currentMovie.rating}
+                            description = {this.state.currentMovie.description}
+                            action = {() => this.handleSelectSearch()}
+                            runtime = {this.state.currentMovie.runtime}
+                        />
+                        <SearchResult movies = {this.props.fetchedMovies} action = {(movie: Movie) => this.handleSelectMovie(movie)}/>
+                        <div className = 'footer'>
+                            <div className= 'footer-content'>Netflixroulette</div>
+                        </div>
+                    </Route>
+                )
+            }
+            return (
+                <Route path="/" >
+                    <Search filterOptions = {['title', 'genres']} makeSearch = {this.handleSearch}/>
+                    <SearchResult movies = {this.props.fetchedMovies} action = {(movie: Movie) => this.handleSelectMovie(movie)}/>
+                    <div className = 'footer'>
+                        <div className= 'footer-content'>Netflixroulette</div>
+                    </div>
+                </Route>
+            );
         }
-        else {
-            result = <>
-            <Search filterOptions = {['title', 'genres']} makeSearch = {this.handleSearch}/>
-            <SearchResult movies = {this.props.fetchedMovies} action = {(movie: Movie) => this.handleSelectMovie(movie)}/>
-            <div className = 'footer'>
-                <div className= 'footer-content'>Netflixroulette</div>
-            </div>
-            </>
-        }
+
         return (
             <div className = 'App'>
-                {result}
+            <ConnectedRouter history={this.props.history}>
+                <Switch>
+                    <Route exact path="/" >
+                        <Search filterOptions = {['title', 'genres']} makeSearch = {this.handleSearch}/>
+                        <SearchResult movies = {this.props.fetchedMovies} action = {(movie: Movie) => this.handleSelectMovie(movie)}/>
+                        <div className = 'footer'>
+                            <div className= 'footer-content'>Netflixroulette</div>
+                        </div>
+                    </Route>
+                    <Route path="/films" >
+                        {getResult()}
+                    </Route>
+                    <Route path="*" >
+                        <Search filterOptions = {['title', 'genres']} makeSearch = {this.handleSearch}/>
+                        <NotFound />
+                        <div className = 'footer'>
+                            <div className= 'footer-content'>Netflixroulette</div>
+                        </div>
+                    </Route>
+                </Switch>
+            </ConnectedRouter>
             </div>
         );
     }

@@ -6,6 +6,7 @@ module.exports = {
   entry: "./src/index.tsx",
   output: {
     path: path.join(__dirname, 'build'),
+    publicPath: '/',
     filename: "[name].js"
   },
   plugins: [

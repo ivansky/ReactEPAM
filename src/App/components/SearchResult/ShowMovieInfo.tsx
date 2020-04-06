@@ -2,6 +2,7 @@ import React  from 'react';
 import { Movie } from './types';
 import './ShowMovieInfo.scss';
 import '../common/Button.scss';
+import { Link } from 'react-router-dom';
 
 const ShowMovieInfo = (props: Movie) => {
     return (
@@ -9,7 +10,9 @@ const ShowMovieInfo = (props: Movie) => {
             <div className = 'movie-modal'>
                 <div className = 'movie-modal-header'>
                     <h1 className = 'search-title'>Netflixroulette</h1>
-                    <button className = 'button' onClick = {() => props.action(props)}>Search</button>
+                    <Link to='/'>
+                        <button className = 'button' onClick = {() => props.action(props)}>Search</button>
+                    </Link>
                 </div>
                 <div className = 'movie-content-container'>
                     <img className = 'movie-image' src = {props.imageURL}/>

@@ -1,6 +1,7 @@
 export type Movie = {
     action?: (e: Movie) => void;
-    key?: number;
+    id?: number;
+    key: number;
     title: string;
     genres: string[];
     releaseDate: string;
