@@ -9,10 +9,8 @@ const ShowMovieInfo = (props: Movie) => {
         <div className = 'movie-modal-container'>
             <div className = 'movie-modal'>
                 <div className = 'movie-modal-header'>
-                    <Link to='/'>
-                        <a className = 'search-title'>
-                            <h1>Netflixroulette</h1>
-                        </a>
+                    <Link to='/' className = 'search-title'>
+                        <h1>Netflixroulette</h1>
                     </Link>
                     <Link to='/'>
                         <button className = 'button' onClick = {() => props.action(props)}>Search</button>

@@ -12,6 +12,7 @@ import { ConnectedRouter } from 'connected-react-router';
 import { History } from 'history';
 import { Route, Switch } from 'react-router';
 import NotFound from './components/NotFound';
+import { history } from './ConfigureStore';
 
 type State = {
     showCurrentMovie: boolean;
@@ -34,7 +35,9 @@ class App extends Component<Props, State> {
     }
 
     componentDidMount() {
-        this.props.getMovies();
+        const url = `https://reactjs-cdp.herokuapp.com/movies?search=${history.location.pathname.substring(history.location.pathname.lastIndexOf('/') + 1).trim()}&searchBy=title`
+        console.log(url)
+        this.props.getMovies(url)
     }
 
     handleSelectMovie = (movie: Movie) => {
@@ -54,11 +57,11 @@ class App extends Component<Props, State> {
         const url = `https://reactjs-cdp.herokuapp.com/movies?search=${this.props.searchQuery.input}&searchBy=${this.props.searchQuery.filterOption}`
         this.props.getMovies(url)
     }
-
+    
     render() {
+        console.log('render')
         const getResult = () => {
             if (this.state.currentMovie) {
-                console.log(this.state.currentMovie.title)
                 return (
                     <Route path={`/films/${this.state.currentMovie.id}`} >
                         <ShowMovieInfo
@@ -90,17 +93,19 @@ class App extends Component<Props, State> {
                 </Route>
             );
         }
-
+        
         return (
             <div className = 'App'>
             <ConnectedRouter history={this.props.history}>
                 <Switch>
                     <Route exact path="/" >
+                        {/* <Route path="/search/:searchtext" component={Search} /> */}
+                        <Search filterOptions = {['title', 'genres']} makeSearch = {this.handleSearch}/>
+                        {/* <SearchResult movies = {this.props.fetchedMovies} action = {(movie: Movie) => this.handleSelectMovie(movie)}/> */}
+                    </Route>
+                    <Route path= "/search">
                         <Search filterOptions = {['title', 'genres']} makeSearch = {this.handleSearch}/>
                         <SearchResult movies = {this.props.fetchedMovies} action = {(movie: Movie) => this.handleSelectMovie(movie)}/>
-                        <div className = 'footer'>
-                            <div className= 'footer-content'>Netflixroulette</div>
-                        </div>
                     </Route>
                     <Route path="/films" >
                         {getResult()}
@@ -108,12 +113,12 @@ class App extends Component<Props, State> {
                     <Route path="*" >
                         <Search filterOptions = {['title', 'genres']} makeSearch = {this.handleSearch}/>
                         <NotFound />
-                        <div className = 'footer'>
-                            <div className= 'footer-content'>Netflixroulette</div>
-                        </div>
                     </Route>
                 </Switch>
             </ConnectedRouter>
+            <div className = 'footer'>
+                <div className= 'footer-content'>Netflixroulette</div>
+            </div>
             </div>
         );
     }

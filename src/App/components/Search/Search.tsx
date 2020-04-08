@@ -7,7 +7,8 @@ import { AppState, SearchQuery } from '../../typings/types';
 import { Dispatch, bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { setSearchInput, setSearchFilter } from '../../actions/setSearchQuery';
-import { Link } from 'react-router-dom';
+import { Link, Route } from 'react-router-dom';
+import { history } from '../../ConfigureStore';
 type SearchProps = {
     filterOptions: string[];
     searchQuery: SearchQuery;
@@ -15,6 +16,7 @@ type SearchProps = {
     setSearchFilter: Function;
     makeSearch: Function;
 }
+
 type SearchState = {
     inputValue: string;
     filterOptions: string[];
@@ -29,7 +31,17 @@ class Search extends React.Component<SearchProps, SearchState>{
             activeOption: props.filterOptions[0]
         }
     }
-
+    // componentDidMount() {
+    //     history.listen((location, action) => {
+    //         this.props.setSearchInput(location)
+    //         if (action === "PUSH") this.props.makeSearch(this.props.searchQuery);
+    //         console.log(action);
+    //     });
+    //     history.push(`${location.pathname}`);
+    // }
+    // componentWillUnmount() {
+    //     this.unlisten();
+    // }
     componentDidUpdate(prevProps: SearchProps) {
         if (prevProps === this.props) {
             this.props.setSearchInput(this.state.inputValue);
@@ -40,6 +52,7 @@ class Search extends React.Component<SearchProps, SearchState>{
     handleButtonSubmit = () => {
         this.props.setSearchInput(this.state.inputValue)
         this.props.makeSearch()
+        history.push(`/search/${this.state.inputValue}`);
     }
 
     handleInputChange = (e: React.ChangeEvent) => {
@@ -49,7 +62,9 @@ class Search extends React.Component<SearchProps, SearchState>{
 
     handleInputSubmit = (e: React.KeyboardEvent) => {
         if (e.key === 'Enter') {
-            this.props.makeSearch(this.props.searchQuery)
+            this.props.setSearchInput(this.state.inputValue)
+            this.props.makeSearch()
+            history.push(`/search/${this.state.inputValue}`);
         }
     }
 
@@ -61,10 +76,8 @@ class Search extends React.Component<SearchProps, SearchState>{
         return (
             <div className = 'search-container'>
                 <div className = 'search'>
-                    <Link to='/'>
-                        <a className = 'search-title'>
-                            <h1>Netflixroulette</h1>
-                        </a>
+                    <Link to='/' className = 'search-title'>
+                        <h1 >Netflixroulette</h1>
                     </Link>
                     <h2>Find your movie</h2>
                     <Input

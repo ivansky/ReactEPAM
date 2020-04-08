@@ -6,6 +6,7 @@ import { AppState } from "../typings/types";
 import { fetchMoviesError } from "../actions/fetchMoviesError";
 type Action = FetchMoviesSuccess;
 export const getMovies = (url = 'https://reactjs-cdp.herokuapp.com/movies'): ThunkAction<void, AppState, null, Action> => {
+    console.log(url);
     return (dispatch: Dispatch) => {
         fetch(url)
         .then(res => res.json())
