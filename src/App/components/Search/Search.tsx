@@ -7,23 +7,24 @@ import { AppState, SearchQuery } from '../../typings/types';
 import { Dispatch, bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { setSearchInput, setSearchFilter } from '../../actions/setSearchQuery';
-import { Link, Route } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { history } from '../../ConfigureStore';
-type SearchProps = {
+import { getMovies } from '../../thunkAction/getMovies';
+type Props = {
     filterOptions: string[];
     searchQuery: SearchQuery;
     setSearchInput: Function;
     setSearchFilter: Function;
-    makeSearch: Function;
+    getMovies: Function;
 }
 
-type SearchState = {
+type State = {
     inputValue: string;
     filterOptions: string[];
     activeOption: string;
 }
-class Search extends React.Component<SearchProps, SearchState>{
-    constructor(props: SearchProps) {
+class Search extends React.Component<Props, State>{
+    constructor(props: Props) {
         super(props)
         this.state = {
             inputValue: '',
@@ -31,27 +32,23 @@ class Search extends React.Component<SearchProps, SearchState>{
             activeOption: props.filterOptions[0]
         }
     }
-    // componentDidMount() {
-    //     history.listen((location, action) => {
-    //         this.props.setSearchInput(location)
-    //         if (action === "PUSH") this.props.makeSearch(this.props.searchQuery);
-    //         console.log(action);
-    //     });
-    //     history.push(`${location.pathname}`);
-    // }
-    // componentWillUnmount() {
-    //     this.unlisten();
-    // }
-    componentDidUpdate(prevProps: SearchProps) {
+
+    componentDidUpdate(prevProps: Props) {
         if (prevProps === this.props) {
             this.props.setSearchInput(this.state.inputValue);
             this.props.setSearchFilter(this.state.activeOption)
         }
     }
 
+    componentDidMount() {
+        const lastPathFragment = history.location.pathname.substring(history.location.pathname.lastIndexOf('/') + 1).trim()
+        const url = `https://reactjs-cdp.herokuapp.com/movies?search=${lastPathFragment}&searchBy=title`;
+        this.props.getMovies(url)
+    }
+
     handleButtonSubmit = () => {
         this.props.setSearchInput(this.state.inputValue)
-        this.props.makeSearch()
+        this.handleSearch();
         history.push(`/search/${this.state.inputValue}`);
     }
 
@@ -60,10 +57,17 @@ class Search extends React.Component<SearchProps, SearchState>{
         this.setState({inputValue: inputText});
     }
 
+    handleSearch = () => {
+        const url =
+        `https://reactjs-cdp.herokuapp.com/movies?search=${this.props.searchQuery.input}&searchBy=${this.props.searchQuery.filterOption}`;
+        this.props.getMovies(url)
+    }
+
     handleInputSubmit = (e: React.KeyboardEvent) => {
         if (e.key === 'Enter') {
             this.props.setSearchInput(this.state.inputValue)
-            this.props.makeSearch()
+            this.props.setSearchInput(this.state.inputValue)
+            this.handleSearch();
             history.push(`/search/${this.state.inputValue}`);
         }
     }
@@ -110,7 +114,8 @@ function mapStateToProps (state: AppState){
 function mapDispatchToProps (dispatch: Dispatch) {
     return {
         setSearchInput: bindActionCreators(setSearchInput, dispatch),
-        setSearchFilter: bindActionCreators(setSearchFilter, dispatch)
+        setSearchFilter: bindActionCreators(setSearchFilter, dispatch),
+        getMovies: bindActionCreators(getMovies, dispatch)
     }
 }
 
