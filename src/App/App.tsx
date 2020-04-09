@@ -43,7 +43,7 @@ class App extends Component<Props, State> {
     }
     
     render() {
-        console.log('render')
+        //console.log('render', this.props)
         const getResult = () => {
             if (this.state.currentMovie) {
                 return (
@@ -64,37 +64,46 @@ class App extends Component<Props, State> {
                     </Route>
                 )
             }
+            else if (this.props.fetchedMovies.length) {
+                return (
+                    <Route path="/" >
+                        <Search filterOptions = {['title', 'genres']} />
+                        <NotFound />
+                    </Route>
+                )
+            }
             return (
-                <Route path="/" >
+                <>
                     <Search filterOptions = {['title', 'genres']} />
                     <SearchResult movies = {this.props.fetchedMovies} action = {(movie: Movie) => this.handleSelectMovie(movie)}/>
-                </Route>
+                </>
             );
         }
         
         return (
             <div className = 'App'>
-            <ConnectedRouter history={this.props.history}>
-                <Switch>
-                    <Route exact path="/" >
-                        <Search filterOptions = {['title', 'genres']} />
-                    </Route>
-                    <Route path= "/search">
-                        <Search filterOptions = {['title', 'genres']} />
-                        <SearchResult movies = {this.props.fetchedMovies} action = {(movie: Movie) => this.handleSelectMovie(movie)}/>
-                    </Route>
-                    <Route path="/films" >
-                        {getResult()}
-                    </Route>
-                    <Route path="*" >
-                        <Search filterOptions = {['title', 'genres']} />
-                        <NotFound />
-                    </Route>
-                </Switch>
-            </ConnectedRouter>
-            <div className = 'footer'>
-                <div className= 'footer-content'>Netflixroulette</div>
-            </div>
+                <ConnectedRouter history={this.props.history}>
+                    <Switch>
+                        <Route exact path="/" >
+                            <Search filterOptions = {['title', 'genres']} />
+                            <NotFound />
+                        </Route>
+                        <Route path= "/search">
+                            <Search filterOptions = {['title', 'genres']} />
+                            <SearchResult movies = {this.props.fetchedMovies} action = {(movie: Movie) => this.handleSelectMovie(movie)}/>
+                        </Route>
+                        <Route path="/films" >
+                            {getResult()}
+                        </Route>
+                        <Route path="*" >
+                            <Search filterOptions = {['title', 'genres']} />
+                            <NotFound />
+                        </Route>
+                    </Switch>
+                </ConnectedRouter>
+                <div className = 'footer'>
+                    <div className= 'footer-content'>Netflixroulette</div>
+                </div>
             </div>
         );
     }

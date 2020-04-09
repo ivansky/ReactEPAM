@@ -47,7 +47,6 @@ class Search extends React.Component<Props, State>{
     }
 
     handleButtonSubmit = () => {
-        this.props.setSearchInput(this.state.inputValue)
         this.handleSearch();
         history.push(`/search/${this.state.inputValue}`);
     }
@@ -65,8 +64,6 @@ class Search extends React.Component<Props, State>{
 
     handleInputSubmit = (e: React.KeyboardEvent) => {
         if (e.key === 'Enter') {
-            this.props.setSearchInput(this.state.inputValue)
-            this.props.setSearchInput(this.state.inputValue)
             this.handleSearch();
             history.push(`/search/${this.state.inputValue}`);
         }
