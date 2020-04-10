@@ -6,7 +6,7 @@ import { Movie } from './components/SearchResult/types';
 import ShowMovieInfo from './components/SearchResult/ShowMovieInfo';
 import { connect } from 'react-redux'
 import { AppState} from './typings/types';
-import { ConnectedRouter } from 'connected-react-router';
+import { ConnectedRouter, push } from 'connected-react-router';
 import { History } from 'history';
 import { Route, Switch } from 'react-router';
 import NotFound from './components/NotFound';
@@ -28,7 +28,10 @@ class App extends Component<Props, State> {
             showCurrentMovie: false,
         }
     }
-
+    // componentDidMount() {
+    //     console.log('storage clear')
+    //     //localStorage.clear()
+    // }
     handleSelectMovie = (movie: Movie) => {
         this.setState({
             showCurrentMovie: true,
@@ -43,7 +46,6 @@ class App extends Component<Props, State> {
     }
     
     render() {
-        //console.log('render', this.props)
         const getResult = () => {
             if (this.state.currentMovie) {
                 return (
@@ -64,7 +66,8 @@ class App extends Component<Props, State> {
                     </Route>
                 )
             }
-            else if (this.props.fetchedMovies.length) {
+            else if (this.props.fetchedMovies.length === 0) {
+                console.log(this.props.fetchedMovies.length)
                 return (
                     <Route path="/" >
                         <Search filterOptions = {['title', 'genres']} />
@@ -89,8 +92,7 @@ class App extends Component<Props, State> {
                             <NotFound />
                         </Route>
                         <Route path= "/search">
-                            <Search filterOptions = {['title', 'genres']} />
-                            <SearchResult movies = {this.props.fetchedMovies} action = {(movie: Movie) => this.handleSelectMovie(movie)}/>
+                            {getResult()}
                         </Route>
                         <Route path="/films" >
                             {getResult()}
