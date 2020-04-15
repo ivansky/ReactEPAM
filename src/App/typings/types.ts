@@ -41,7 +41,12 @@ export type SearchQuery = {
     filterOption: string;
 }
 
+export type FetchMoviesState = {
+    movies: Movie[];
+    pending: boolean;
+}
+
 export interface AppState {
-    fetchedMovies: Movie[];
+    fetchMovies: FetchMoviesState;
     searchQuery: SearchQuery;
 }

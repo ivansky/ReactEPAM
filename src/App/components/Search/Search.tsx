@@ -42,22 +42,6 @@ class Search extends React.Component<Props, State>{
     }
 
     componentDidMount() {
-        //this.props.setSearchFilter(this.state.activeOption)
-        //console.log(this.props.searchQuery.filterOption)
-        //console.log(localStorage.getItem('lastSearch'))
-        // if (localStorage.getItem('lastSearch')) {
-        //     const url = `https://reactjs-cdp.herokuapp.com/movies?search=${localStorage.getItem('lastSearch')}&searchBy=title`;
-        //     this.props.getMovies(url)
-        //     history.push(`/search/${localStorage.getItem('lastSearch')}`);
-        //     localStorage.clear()
-        // }
-        // else {
-        //     const lastPathFragment = history.location.pathname.substring(history.location.pathname.lastIndexOf('/') + 1).trim()
-        //     localStorage.setItem('lastSearch', lastPathFragment);
-        //     const url = `https://reactjs-cdp.herokuapp.com/movies?search=${lastPathFragment}&searchBy=title`;
-        //     this.props.getMovies(url)
-        //     history.push(`/search/${lastPathFragment}`);
-        // }
         const searchPathFragment = /search\/(.*)/.exec(history.location.pathname);
         
         if (searchPathFragment) {
@@ -71,10 +55,7 @@ class Search extends React.Component<Props, State>{
             const url = `https://reactjs-cdp.herokuapp.com/movies?search=${localStorage.getItem('lastSearch')}&searchBy=${this.state.activeOption}`;
             this.props.getMovies(url)
             history.push(`/search/${localStorage.getItem('lastSearch')}`);
-            // console.log('storage clear')
-            // localStorage.clear()
         }
-        //localStorage.clear()
     }
 
     handleButtonSubmit = () => {
@@ -138,7 +119,7 @@ class Search extends React.Component<Props, State>{
 function mapStateToProps (state: AppState){
     return {
         searchQuery: state.searchQuery,
-        fetchedMovies: state.fetchedMovies,
+        fetchedMovies: state.fetchMovies.movies,
     }
 }
 

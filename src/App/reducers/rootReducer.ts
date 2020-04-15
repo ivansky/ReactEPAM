@@ -6,7 +6,7 @@ import { History } from 'history'
 
 const createRootReducer = (history: History) => combineReducers({
     router: connectRouter(history),
-    fetchedMovies: FetchMovies,
+    fetchMovies: FetchMovies,
     searchQuery: SetQuery
 });
 

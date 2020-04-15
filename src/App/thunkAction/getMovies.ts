@@ -3,11 +3,13 @@ import { fetchMoviesSuccess, FetchMoviesSuccess } from "../actions/fetchMoviesSu
 import { MoviesApiData, MappedMoviesData } from "../types";
 import { ThunkAction } from "redux-thunk";
 import { AppState } from "../typings/types";
-import { fetchMoviesError } from "../actions/fetchMoviesError";
-type Action = FetchMoviesSuccess;
+import { fetchMoviesError, FetchMoviesError } from "../actions/fetchMoviesError";
+import { FetchMoviesPending, fetchMoviesPending } from "../actions/fetchMoviesPending";
+type Action = FetchMoviesSuccess | FetchMoviesPending | FetchMoviesError;
 export const getMovies = (url = 'https://reactjs-cdp.herokuapp.com/movies'): ThunkAction<void, AppState, null, Action> => {
     console.log(url);
     return (dispatch: Dispatch) => {
+        dispatch(fetchMoviesPending());
         fetch(url)
         .then(res => res.json())
         .then(res => {
@@ -26,7 +28,7 @@ export const getMovies = (url = 'https://reactjs-cdp.herokuapp.com/movies'): Thu
                     runtime: movie.runtime
                 }
             });
-           dispatch(fetchMoviesSuccess(mapMoviesData));
+            dispatch(fetchMoviesSuccess(mapMoviesData));
         })
         .catch(() => dispatch(fetchMoviesError()));
     }

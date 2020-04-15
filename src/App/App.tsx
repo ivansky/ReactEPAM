@@ -10,6 +10,7 @@ import { ConnectedRouter, push } from 'connected-react-router';
 import { History } from 'history';
 import { Route, Switch } from 'react-router';
 import NotFound from './components/NotFound';
+import Pending from './components/Pending'
 
 type State = {
     showCurrentMovie: boolean;
@@ -19,6 +20,7 @@ type State = {
 type Props = {
     fetchedMovies: Movie[];
     history: History;
+    pending: boolean;
 }
 
 class App extends Component<Props, State> {
@@ -28,10 +30,7 @@ class App extends Component<Props, State> {
             showCurrentMovie: false,
         }
     }
-    // componentDidMount() {
-    //     console.log('storage clear')
-    //     //localStorage.clear()
-    // }
+
     handleSelectMovie = (movie: Movie) => {
         this.setState({
             showCurrentMovie: true,
@@ -67,20 +66,31 @@ class App extends Component<Props, State> {
                 )
             }
             else if (this.props.fetchedMovies.length === 0) {
-                console.log(this.props.fetchedMovies.length)
-                return (
-                    <Route path="/" >
-                        <Search filterOptions = {['title', 'genres']} />
-                        <NotFound />
-                    </Route>
-                )
+                if(this.props.pending) {
+                        return (
+                            <>
+                                <Search filterOptions = {['title', 'genres']} />
+                                <Pending />
+                            </>
+                        )
+                } 
+                else {
+                    return (
+                        <>
+                            <Search filterOptions = {['title', 'genres']} />
+                            <NotFound />
+                        </>
+                    )
+                }
             }
-            return (
-                <>
-                    <Search filterOptions = {['title', 'genres']} />
-                    <SearchResult movies = {this.props.fetchedMovies} action = {(movie: Movie) => this.handleSelectMovie(movie)}/>
-                </>
-            );
+            else {
+                return (
+                    <>
+                        <Search filterOptions = {['title', 'genres']} />
+                        <SearchResult movies = {this.props.fetchedMovies} action = {(movie: Movie) => this.handleSelectMovie(movie)}/>
+                    </>
+                );
+            }
         }
         
         return (
@@ -91,10 +101,10 @@ class App extends Component<Props, State> {
                             <Search filterOptions = {['title', 'genres']} />
                             <NotFound />
                         </Route>
-                        <Route path= "/search">
+                        <Route path= "/search/">
                             {getResult()}
                         </Route>
-                        <Route path="/films" >
+                        <Route path="/films/" >
                             {getResult()}
                         </Route>
                         <Route path="*" >
@@ -113,7 +123,8 @@ class App extends Component<Props, State> {
 
 function mapStateToProps (state: AppState){
     return {
-        fetchedMovies: state.fetchedMovies,
+        fetchedMovies: state.fetchMovies.movies,
+        pending: state.fetchMovies.pending
     }
 }
 

@@ -1,21 +1,34 @@
 import { Reducer } from "react";
 import { FetchMoviesSuccess } from "../actions/fetchMoviesSuccess";
 import { ActionTypes } from "../constants/Constants";
-import { MappedMoviesData } from "../typings/types";
+import { MappedMoviesData, AppState, FetchMoviesState } from "../typings/types";
 import { FetchMoviesError } from "../actions/fetchMoviesError";
+import { FetchMoviesPending } from "../actions/fetchMoviesPending";
 
-const initialState: MappedMoviesData[] = [];
+const initialState: FetchMoviesState = {
+    movies: [],
+    pending: false
+}
 
-type Action = FetchMoviesSuccess | FetchMoviesError;
+type Action = FetchMoviesSuccess | FetchMoviesError | FetchMoviesPending;
 
-export const FetchMovies: Reducer<MappedMoviesData[], Action> = (state = initialState, action: Action) => {
+export const FetchMovies: Reducer<FetchMoviesState, Action> = (state = initialState, action: Action) => {
     switch (action.type) {
         case ActionTypes.FETCH_MOVIES_SUCCESS:
-            return action.payload
+            return {
+                ...state,
+                movies: action.payload,
+                pending: false
+            }
+        case ActionTypes.FETCH_MOVIES_PENDING:
+            return {
+                ...state,
+                pending: true
+            }
         case ActionTypes.FETCH_MOVIES_ERROR:
             return {
                 ...state,
-                fetchError: action.payload,
+                pending: false,
             }
         default:
             return state;
