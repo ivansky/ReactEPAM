@@ -10,6 +10,7 @@ import { setSearchInput, setSearchFilter } from '../../actions/setSearchQuery';
 import { Link } from 'react-router-dom';
 import { history } from '../../ConfigureStore';
 import { getMovies } from '../../thunkAction/getMovies';
+import { LocalStorageKeys } from '../../constants/Constants';
 type Props = {
     filterOptions: string[];
     searchQuery: SearchQuery;
@@ -45,22 +46,22 @@ class Search extends React.Component<Props, State>{
         const searchPathFragment = /search\/(.*)/.exec(history.location.pathname);
         
         if (searchPathFragment) {
-            localStorage.setItem('lastSearch', searchPathFragment[1]);
+            localStorage.setItem(LocalStorageKeys.LAST_SEARCH, searchPathFragment[1]);
             const url = `https://reactjs-cdp.herokuapp.com/movies?search=${searchPathFragment[1]}&searchBy=${this.state.activeOption}`;
             this.props.getMovies(url);
             this.props.setSearchInput(searchPathFragment[1]);
             history.push(`/search/${searchPathFragment[1]}`);
         }
         else {
-            const url = `https://reactjs-cdp.herokuapp.com/movies?search=${localStorage.getItem('lastSearch')}&searchBy=${this.state.activeOption}`;
+            const url = `https://reactjs-cdp.herokuapp.com/movies?search=${localStorage.getItem(LocalStorageKeys.LAST_SEARCH)}&searchBy=${this.state.activeOption}`;
             this.props.getMovies(url)
-            history.push(`/search/${localStorage.getItem('lastSearch')}`);
+            history.push(`/search/${localStorage.getItem(LocalStorageKeys.LAST_SEARCH)}`);
         }
     }
 
     handleButtonSubmit = () => {
         this.handleSearch();
-        localStorage.setItem('lastSearch', this.state.inputValue);
+        localStorage.setItem(LocalStorageKeys.LAST_SEARCH, this.state.inputValue);
         history.push(`/search/${this.state.inputValue}`);
     }
 
@@ -78,7 +79,7 @@ class Search extends React.Component<Props, State>{
     handleInputSubmit = (e: React.KeyboardEvent) => {
         if (e.key === 'Enter') {
             this.handleSearch();
-            localStorage.setItem('lastSearch', this.state.inputValue);
+            localStorage.setItem(LocalStorageKeys.LAST_SEARCH, this.state.inputValue);
             history.push(`/search/${this.state.inputValue}`);
         }
     }

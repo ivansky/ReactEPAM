@@ -5,3 +5,7 @@ export enum ActionTypes {
     SET_SEARCH_INPUT = "SET_SEARCH_INPUT",
     SET_SEARCH_FILTER = "SET_SEARCH_FILTER",
 }
+
+export enum LocalStorageKeys {
+    LAST_SEARCH = "LAST_SEARCH"
+}
