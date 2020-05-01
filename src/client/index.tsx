@@ -5,7 +5,7 @@ import { Provider } from "react-redux";
 import { configureStore, history } from './App/ConfigureStore';
 
 const store = configureStore();
-const Root = () => (
+export const Root = () => (
   <Provider store={store}>
     <App history={history}/>
   </Provider>
