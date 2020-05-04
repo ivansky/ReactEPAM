@@ -11,4 +11,4 @@ export const Root = () => (
   </Provider>
 );
 
-ReactDOM.render(<Root />, document.getElementById("root"));
+ReactDOM.hydrate(<Root />, document.getElementById("root"));

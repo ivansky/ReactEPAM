@@ -2,3 +2,5 @@ node_modules
 build
 debug.log
 coverage
+dist
+public
