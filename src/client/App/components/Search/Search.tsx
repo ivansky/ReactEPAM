@@ -11,6 +11,7 @@ import { Link } from 'react-router-dom';
 import { history } from '../../ConfigureStore';
 import { getMovies } from '../../thunkAction/getMovies';
 import { LocalStorageKeys } from '../../constants/Constants';
+import { IS_BROWSER } from '../../constants/platform';
 type Props = {
     filterOptions: string[];
     searchQuery: SearchQuery;
@@ -56,6 +57,11 @@ class Search extends React.Component<Props, State>{
             const url = `https://reactjs-cdp.herokuapp.com/movies?search=${localStorage.getItem(LocalStorageKeys.LAST_SEARCH)}&searchBy=${this.state.activeOption}`;
             this.props.getMovies(url)
             history.push(`/search/${localStorage.getItem(LocalStorageKeys.LAST_SEARCH)}`);
+        }
+    }
+    componentWillMount() {
+        if (!IS_BROWSER) {
+        this.props.getMovies(`https://reactjs-cdp.herokuapp.com/movies?search=&searchBy=${this.state.activeOption}`)
         }
     }
 
