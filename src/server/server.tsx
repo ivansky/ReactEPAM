@@ -4,22 +4,9 @@ import { renderToString } from 'react-dom/server';
 import { configureStore, history } from '../client/App/ConfigureStore';
 import { Provider } from "react-redux";
 import App from "../client/App/App";
-import { getMovies } from "../client/App/thunkAction/getMovies";
-import fetchNode from 'node-fetch';
 const path = require('path');
 import express, { Request, Response } from "express";
 import contextService from 'request-context';
-//(global as any).fetch = require('node-fetch');
-
-function fetch(url: string, ...args: any[]): Promise<any> {
-    console.log('SOSAT JOPY');
-    const result: Promise<any> = fetchNode(url, ...args);
-    const promisesSet = contextService.get('request:promisesSet');
-    promisesSet.push(result);
-    return result;
-}
-
-Object.assign(global, { fetch });
 
 const app = express();
 const port = process.env.PORT || 3000;
