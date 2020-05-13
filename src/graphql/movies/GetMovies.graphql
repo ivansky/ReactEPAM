@@ -2,18 +2,20 @@ query GetMovies($search: String, $searchBy: String) {
     movies(
         search: $search
         searchBy: $searchBy
-    ) @rest(type: "[Movie!]", path: "movies?{args}") {
-        id
-        title
-        tagline
-        vote_average
-        vote_count
-        release_date
-        poster_path
-        overview
-        budget
-        revenue
-        genres
-        runtime
+    ) @rest(type: "MoviesResponse", path: "movies?{args}") {
+        data @type(name: "Movie") {
+            id
+            title
+            tagline
+            vote_average
+            vote_count
+            release_date
+            poster_path
+            overview
+            budget
+            revenue
+            genres
+            runtime
+        }
     }
 }

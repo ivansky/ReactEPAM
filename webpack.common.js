@@ -70,9 +70,10 @@ const clientConfig = {
           {
             loader: 'ts-loader',
             options: {
+              transpileOnly: true,
               configFile: 'tsconfig.json'
             }
-          }, 'eslint-loader'],
+          }/*, 'eslint-loader'*/],
         exclude: /node_modules/,
       },
       {

@@ -3,18 +3,58 @@ import Card from './Card';
 import ResultSorting from './ResultSorting';
 import { Movie} from './types';
 import './SearchResult.scss';
+import { useGetMoviesQuery } from "../../../../graphql/movies/GetMovies.generated";
 
 type Props = {
-    action: (movie: Movie) => void;
-    movies: Movie[];
+    searchQuery: string;
+    searchBy: string | null;
 }
 
-type State = {
-    sortBy: {
-        [key: string]: boolean;
-    };
-    activeSortingOption: string;
-}
+const SearchResult: React.FC<Props> = props => {
+    const { searchQuery, searchBy } = props;
+
+    const { data, loading } = useGetMoviesQuery({
+        variables: {
+            search: searchQuery || undefined,
+            searchBy: searchBy || undefined
+        }
+    });
+
+    const sortingOptions = ['releaseDate', 'rating'];
+    const movies = data?.movies.data ?? [];
+
+    return (
+        <>
+            <ResultSorting
+                numberOfItems={10}
+                sortingOptions={sortingOptions}
+                activeOption={sortingOptions[0]}
+                handleSwitchSorting={undefined}
+            />
+            <div className='search-result-container'>
+                <div className='search-result'>
+                    {movies.map(
+                        (movie, index) =>
+                            <Card
+                                action={(movie) => undefined}
+                                key={movie.id}
+                                id={movie.id}
+                                title={movie.title}
+                                genres={movie.genres}
+                                releaseDate={movie.release_date}
+                                imageURL={movie.poster_path}
+                                rating={movie.vote_average}
+                                description={movie.overview}
+                                runtime={movie.runtime}
+                            />
+                        )}
+                </div>
+            </div>
+        </>
+    );
+};
+
+/*
 class SearchResult extends React.Component<Props, State>{
     constructor(props: Props) {
         super(props)
@@ -82,19 +122,19 @@ class SearchResult extends React.Component<Props, State>{
         return (
             <>
                 <ResultSorting
-                    numberOfItems = {this.props.movies.length}
-                    sortingOptions = {sortingOptions}
-                    activeOption = {sortingOptions[0]}
-                    handleSwitchSorting = {this.switchSorting}
+                    numberOfItems={this.props.movies.length}
+                    sortingOptions={sortingOptions}
+                    activeOption={sortingOptions[0]}
+                    handleSwitchSorting={this.switchSorting}
                 />
-                <div className = 'search-result-container'>
-                    <div className = 'search-result'>
+                <div className='search-result-container'>
+                    <div className='search-result'>
                         {setSearchResult}
                     </div>
                 </div>
             </>
         );
     }
-}
+}*/
 
 export default SearchResult;

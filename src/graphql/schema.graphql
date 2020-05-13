@@ -1,0 +1,26 @@
+type Movie {
+    id: Int!
+    title: String!
+    tagline: String!
+    vote_average: Int!
+    vote_count: Int!
+    release_date: String!
+    poster_path: String!
+    overview: String!
+    budget: Int!
+    revenue: Int!
+    genres: [String!]!
+    runtime: Int!
+}
+
+type MoviesResponse {
+    data: [Movie!]!
+    limit: Int!
+    offset: Int!
+    total: Int!
+}
+
+type Query {
+    movies(search: String, searchBy: String): MoviesResponse!
+    movie(id: Int!): Movie
+}

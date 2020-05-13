@@ -1,7 +1,8 @@
 const merge = require('webpack-merge');
-const common = require('./webpack.common');
+const HtmlWebPackPlugin = require("html-webpack-plugin");
+const [, client] = require('./webpack.common');
 
-module.exports = merge(common, {
+module.exports = merge(client, {
     mode: 'development',
     devtool: 'inline-source-map',
     devServer: {
@@ -9,4 +10,10 @@ module.exports = merge(common, {
         contentBase: './',
         hot: true
     },
+    plugins: [
+        new HtmlWebPackPlugin({
+            template: "./src/client/index.html",
+            filename: "./index.html"
+        }),
+    ]
 });

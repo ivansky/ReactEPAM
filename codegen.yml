@@ -1,8 +1,17 @@
+overwrite: true
+config:
+  namingConvention:
+    typeNames: change-case#pascalCase
+    transformUnderscore: true
+schema:
+  - ./src/graphql/schema.graphql
 generates:
   ./src/types/types.ts:
     plugins:
       - typescript
-  ./src/graphql:
+  ./src/types:
+    documents:
+      - './src/graphql/**/*.graphql'
     config:
       noNamespaces: true
       withHooks: true

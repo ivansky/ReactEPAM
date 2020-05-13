@@ -1,0 +1,16 @@
+query GetMovie($id: Int!) {
+    movie(id: $id) @rest(type: "Movie", path: "movies/{args.id}") {
+        id
+        title
+        tagline
+        vote_average
+        vote_count
+        release_date
+        poster_path
+        overview
+        budget
+        revenue
+        genres
+        runtime
+    }
+}
