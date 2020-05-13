@@ -12,7 +12,7 @@ import { useGetMoviesQuery } from "../../graphql/movies/GetMovies.generated";
 const App: React.FC = () => {
     const { searchQuery: urlSearchQuery } = useParams();
     const [searchQuery, setSearchQuery] = useState<string>(urlSearchQuery);
-    const [searchBy, setSearchBy] = useState<string | null>(null);
+    const [searchBy, setSearchBy] = useState<string>('title');
 
     return (
         <div className='App'>

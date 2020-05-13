@@ -1,12 +1,14 @@
 /* eslint-disable */
+import path from 'path';
 import React from 'react';
 import { renderToString } from 'react-dom/server';
-import { configureStore, history } from '../client/App/ConfigureStore';
-import { Provider } from "react-redux";
-import App from "../client/App/App";
-const path = require('path');
 import express, { Request, Response } from "express";
 import contextService from 'request-context';
+import { StaticRouter } from 'react-router';
+import { ApolloProvider } from '@apollo/react-hooks';
+import { getDataFromTree } from "@apollo/react-ssr";
+import { createApolloClient } from "../apollo/apollo";
+import App from "../client/App/App";
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -18,30 +20,26 @@ app.use('/images', express.static(path.join(BUILD_DIR, 'images')));
 app.use(contextService.middleware('request'));
 
 app.get('*', async (req: Request, res: Response) => {
-    let promisesSet: Array<Promise<any>> = [];
-    contextService.set('request:promisesSet', promisesSet);
+    const client = createApolloClient();
+    const context = {};
 
-    const store = configureStore();
-    //getMovies('https://reactjs-cdp.herokuapp.com/movies')(store.dispatch, store.getState, null);
-
-    function render() {
+    async function render() {
         const Root = (
-            <Provider store={store}>
-                <App history={history}/>
-            </Provider>
+            <ApolloProvider client={client}>
+                <StaticRouter location={req.url} context={context}>
+                    <App />
+                </StaticRouter>
+            </ApolloProvider>
         );
+
+        await getDataFromTree(Root);
         return renderToString(Root);
     }
 
-    let htmlContent = render();
+    const htmlContent = render();
 
-    while (promisesSet.length > 0) {
-        await Promise.all(promisesSet);
-        promisesSet = [];
-        htmlContent = render();
-    }
-
-    const preloadedState = store.getState()
+    const apolloStateJSON = JSON.stringify(client.extract())
+        .replace(/</g, '\\u003c');
 
     const html = `
         <!DOCTYPE html>
@@ -51,17 +49,16 @@ app.get('*', async (req: Request, res: Response) => {
             <title>React</title>
             <link rel="stylesheet" href="/static/main.css">
         </head>
-        
         <body>
             <div id="root">${htmlContent}</div>
             <script>
-                window.__PRELOADED_STATE__ = ${ JSON.stringify(preloadedState) }
+                window.__APOLLO_STATE__ = ${apolloStateJSON}
             </script>
             <script src="/static/main.js"></script>
         </body>
         </html>
     `;
-    
+
     res.send(html);
 });
 

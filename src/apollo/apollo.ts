@@ -15,6 +15,7 @@ export function createApolloClient() {
 
     // setup your client
     const client = new ApolloClient({
+        ssrMode: !isBrowser,
         link: restLink,
         cache,
     });

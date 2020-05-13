@@ -4,6 +4,7 @@ import ResultSorting from './ResultSorting';
 import { Movie} from './types';
 import './SearchResult.scss';
 import { useGetMoviesQuery } from "../../../../graphql/movies/GetMovies.generated";
+import Pending from "../Pending";
 
 type Props = {
     searchQuery: string;
@@ -23,7 +24,7 @@ const SearchResult: React.FC<Props> = props => {
     const sortingOptions = ['releaseDate', 'rating'];
     const movies = data?.movies.data ?? [];
 
-    return (
+    return loading ? <Pending /> : (
         <>
             <ResultSorting
                 numberOfItems={10}
